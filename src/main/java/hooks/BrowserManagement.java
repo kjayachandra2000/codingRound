@@ -1,4 +1,7 @@
+package hooks;
+
 import com.sun.javafx.PlatformUtil;
+import config.PropertyLoader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,13 +17,16 @@ import org.testng.annotations.BeforeMethod;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class BaseTest {
+public class BrowserManagement {
 
     protected static WebDriver driver;
+    protected PropertyLoader propertyLoader;
 
     @BeforeMethod
     public void startUp() throws IOException, InterruptedException {
+        propertyLoader = PropertyLoader.getInstance();
         initialiseChromeDriver();
+        driver.get(propertyLoader.getURL());
     }
 
     @AfterMethod
@@ -39,7 +45,7 @@ public class BaseTest {
     }
 
     public WebElement findElementWithTimeout(By by) {
-        final int timeOutInSeconds = 60;
+        final int timeOutInSeconds = 70;
         return (new WebDriverWait(driver, timeOutInSeconds)).until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
